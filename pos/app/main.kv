@@ -1,0 +1,17 @@
+
+#: import Home views.home.Home
+
+<MainWindow>:
+    orientation: 'vertical'
+    canvas.before:
+        Color:
+            rgba: app.color_primary_bg
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    ScreenManager:
+        id: scrn_mngr
+        Screen:
+            name: 'scrn_home'
+            Home:
+                id: home
