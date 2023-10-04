@@ -7,8 +7,8 @@ from app import MainApp
 
 register(
     "FeatherIcons",
-    join(dirname(__file__), "assets/fonts/feather/feather.ttf"),
-    join(dirname(__file__), "assets/fonts/feather/feather.fontd"),
+    join(dirname(__file__), "assets\fonts\feather\feather.ttf"),
+    join(dirname(__file__), "assets\fonts\feather\feather.fontd"),
     )
 
 MainApp().run()
