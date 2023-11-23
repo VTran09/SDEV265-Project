@@ -1,8 +1,11 @@
 from kivy.lang import Builder
 from kivy.uix.textinput import TextInput
 from kivy.graphics import Color, RoundedRectangle, Line
+from kivy.uix.dropdown import DropDown
+from kivy.uix.button import Button
 from kivy.properties import ColorProperty, ListProperty
 
+from kivy.core.window import Window
 from kivy.metrics import dp, sp
 
 Builder.load_string("""
@@ -90,3 +93,61 @@ class OutlineTextField(FlatField):
 
     def on_radius(self, *args): 
         self.border_draw.rounded_rectangle=[self.pos[0], self.pos[1], self.size[0], self.size[1], self.radius[0]]
+        
+class SearchBar(FlatField):
+    choices = ListProperty(['Product 01', 'Product 02', 'Product 03'])
+    def __init__(self, **kw):
+        super().__init__(**kw)
+        self.multiline = False
+        self.dropdown = None
+        
+    def on_text(self, inst, text):
+        try:
+            # Close all dropdowns already opened
+            if self.dropdown:
+                self.dropdown.dismiss()
+                self.dropdown = None
+            
+            # Show the current suggestions
+            self.show_suggestions(text)
+            
+        except:
+            pass
+        
+    def keyboard_on_key_down(self, window, kc, text, modifiers):
+        #if len(self.text) == 1 or not text:
+        if self.dropdown:
+            self.dropdown.dismiss()
+            self.dropdown = None
+            
+        else:
+            super().keyboard_on_key_down(window, kc, text, modifiers)
+        
+    def open_dropdown(self, *args):
+        if self.dropdown:
+            self.dropdown.open(self)
+    
+    def show_suggestions(self, suggestion: str):
+        try:
+            self.dropdown = DropDown()
+            self.dropdown.autowidth = False
+            self.dropdown.size_hint_x = None
+            self.dropdown.width = Window.width * .4
+            
+            x: int = 0
+            
+            for c in self.choices:
+                b = Button()
+                b.text = c
+                b.size_hint_y = None
+                b.height = dp(54)
+                
+                self.dropdown.add_widget(b)
+                
+                x += 1
+            
+            if x > 0:
+                self.dropdown.open(self)
+            
+        except:
+            pass

@@ -19,6 +19,7 @@ class MainApp(App):
 
     fonts = QueryDict()
     fonts.size = QueryDict()
+    fonts.size.extra = dp(48)
     fonts.size.h1 = dp(24)
     fonts.size.h2 = dp(22)
     fonts.size.h3 = dp(18)
@@ -26,10 +27,10 @@ class MainApp(App):
     fonts.size.h5 = dp(14)
     fonts.size.h6 = dp(12)
 
-    fonts.heading = 'assets\fonts\Roboto\Roboto-Bold.ttf'
-    fonts.subheading = 'assets\fonts\Roboto\Roboto-Medium.ttf'
-    fonts.body = 'assets\fonts\Roboto\Roboto-Regular.ttf'
-    fonts.styled = 'assets\fonts\Roboto\Roboto-Regular.ttf'
+    fonts.heading = "assets/fonts/Roboto/Roboto-Bold.ttf"
+    fonts.subheading = "assets/fonts/Roboto/Roboto-Medium.ttf"
+    fonts.body = "assets/fonts/Roboto/Roboto-Regular.ttf"
+    fonts.styled = "assets/fonts/Roboto/Roboto-Regular.ttf"
 
     def build(self):
         return MainWindow()
