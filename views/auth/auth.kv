@@ -1,0 +1,130 @@
+<Auth>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(24)
+        padding: dp(24)
+        canvas.before:
+            Color:
+                rgba: [1,1,1,1]
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: "assets/imgs/bg-login.png"
+        AnchorLayout:
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_x: .7
+                size_hint_y: .8
+                AnchorLayout:
+                    anchor_y: 'bottom'
+                    Image:
+                        source: "assets/imgs/logo-light.png"
+                BoxLayout:        
+                    orientation: "vertical"
+                    spacing: dp(24)
+                    Text:
+                        text: "POS System"
+                        font_name: app.fonts.heading
+                        font_size: app.fonts.size.extra
+                        color: app.color_primary_text
+                        halign: "center" 
+                        valign: "bottom"
+                        #size_hint_y: None
+                        #height: dp(54)
+                    AnchorLayout:
+                        anchor_y: "top"
+                        Label:
+                            text: "An All in One Point of Sale System"
+                            text_size: [self.parent.width, None]
+                            font_name: app.fonts.subheading
+                            fint_size: sp(24)
+                            size: self.texture_size
+                            color: app.color_primary_text
+                            halign: "center"
+                            valign: "top"
+                            size_hint_y: None
+        
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(12)
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: dp(12)
+            Text:
+                text: "Hello"
+                font_name: app.fonts.styled
+                font_size: app.fonts.size.extra
+                color: app.color_primary_text
+                halign: "center"
+                valign: "bottom"
+            AnchorLayout:
+                anchor_y: "top"
+                Label:
+                    text: "Enter your details to sign in and access the POS system"
+                    text_size: [self.parent.width, None]
+                    font_name: app.fonts.body
+                    font_size: app.fonts.size.h3
+                    size: self.texture_size
+                    color: app.color_secondary_text
+                    halign: "center"
+                    valign: "top"
+                    size_hint_y: None
+        AnchorLayout:
+            size_hint_y: .5
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: dp(24)
+                padding: dp(24)
+                size_hint_x: .7
+                BackBox:
+                    size_hint_y: None
+                    height: dp(64)
+                    bcolor: app.color_secondary_bg
+                    radius: [self.height*.1]
+                    padding: [dp(12), dp(2)]
+                    FlatField:
+                        hint_text: "username"
+                        hint_text_color: app.color_primary_text
+                        font_size: app.fonts.size.h2
+                        multiline: False
+                BackBox:
+                    size_hint_y: None
+                    height: dp(64)
+                    bcolor: app.color_secondary_bg
+                    radius: [self.height*.1]
+                    padding: [dp(12), dp(2)]
+                    FlatField:
+                        hint_text: "password"
+                        hint_text_color: app.color_primary_text
+                        font_size: app.fonts.size.h2
+                        password: True
+                        multiline: False
+                BackBox:
+                    size_hint_y: None
+                    height: dp(64)
+                    RoundedButton:
+                        text: "Sign in"
+                        font_name: app.fonts.heading
+                        font_size: app.fonts.size.h1
+                        bcolor: app.color_primary
+                        radius: [self.height*.1]
+                        on_release: root.authenticate()
+                BackBox:
+                    size_hint_y: None
+                    height: dp(64)
+                    RoundedButton:
+                        text: "Don't have an account? Sign up"
+                        font_name: app.fonts.subheading
+                        font_size: app.fonts.size.h3
+                        color: app.color_primary_text
+                        radius: [self.height*.1]
+                Widget:
+        AnchorLayout:
+            size_hint_y: .2
+            padding: dp(24)
+            Text:
+                text: "v0.01"
+                font_size: app.fonts.size.h2
+                valign: "bottom"
+                halign: "center"
+                color: app.color_primary_text
