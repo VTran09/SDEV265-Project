@@ -35,6 +35,8 @@
                     SearchBar:
                         hint_text: "Search by product name or code"
                         suggestion_widget: Factory.FlatButton
+                        callback: root.add_product
+                        id: ti_search
 
         BoxLayout:
             spacing: dp(12)
@@ -175,22 +177,7 @@
                             height: self.minimum_height
                             cols: 1
                             spacing: dp(12)
-                            ReceiptItem:
-                                name: "mr Muscle B/Cleaner"
-                                qty: 2
-                                price: 8.00
-                            ReceiptItem:
-                                name: "mr Muscle B/Cleaner"
-                                qty: 2
-                                price: 8.00
-                            ReceiptItem:
-                                name: "mr Muscle B/Cleaner"
-                                qty: 2
-                                price: 8.00
-                            ReceiptItem:
-                                name: "mr Muscle B/Cleaner"
-                                qty: 2
-                                price: 8.00
+                            
 
         Divider:
             id: br

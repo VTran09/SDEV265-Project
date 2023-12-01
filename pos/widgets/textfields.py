@@ -6,7 +6,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.button import Button
 from kivy.properties import ColorProperty, ListProperty, ObjectProperty, StringProperty, NumericProperty
-
+from random import randint
 from kivy.core.window import Window
 from kivy.metrics import dp, sp
 
@@ -128,9 +128,9 @@ class OutlineTextField(FlatField):
         self.border_draw.rounded_rectangle=[self.pos[0], self.pos[1], self.size[0], self.size[1], self.radius[0]]
         
 class SearchBar(FlatField):
-    choices = ListProperty(['Product 01', 'Product 02', 'Product 03'])
+    products = ListProperty([])
     suggestion_widget = ObjectProperty(allownone=True)
-    
+    callback = ObjectProperty(allownone=True)
     def __init__(self, **kw):
         super().__init__(**kw)
         self.multiline = False
@@ -163,7 +163,12 @@ class SearchBar(FlatField):
             self.dropdown.open(self)
     
     def show_suggestions(self, suggestion: str):
+        suggestions = self.get_suggestions(suggestion)
+        self.choices.clear()
+        self.choices = suggestions
+    def on_choices(self, inst, choices):
         try:
+        
             self.dropdown = DropDown()
             self.dropdown.autowidth = False
             self.dropdown.size_hint_x = None
@@ -177,11 +182,12 @@ class SearchBar(FlatField):
                 #if self.suggestion_widget:
                 #    b = self.suggestion_widget()
                     
-                b.name = c
-                b.pcode = "231434123"
-                b.price = 23.56
+                b.name = c['name']
+                b.pcode = c['pcode']
+                b.price = c['price']
                 b.size_hint_y = None
                 b.height = dp(54)
+                b.bind(on_release=self.suggest)
                 
                 self.dropdown.add_widget(b)
                 
@@ -190,9 +196,19 @@ class SearchBar(FlatField):
             if x > 0:
                 self.dropdown.open(self)
             
-        except:
-            pass
-        
+        except Exception as e:
+            print(e)
+
+    def suggest(self, inst):
+        if self.callback:
+            self.callback(inst)
+
+        if self.dropdown:
+            self.dropdown.dismiss()
+            self.dropdown = None
+    def get_suggestions(self, suggestion):
+        prods = self.products
+        return prods
 class SuggestionWidget(ButtonBehavior, BoxLayout):
     pcode = StringProperty("")
     name = StringProperty("")

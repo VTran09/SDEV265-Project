@@ -7,7 +7,7 @@ class AdminWindow(BoxLayout):
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
 
-    print(self.get_products())
+    
 
 def get_users(self):
     client = MongoClient()
