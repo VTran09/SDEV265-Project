@@ -1,3 +1,6 @@
+#: import Factory kivy.factory.Factory
+
+
 <Pos>:
     BoxLayout:
         orientation:'vertical'
@@ -31,6 +34,8 @@
                         valign: "middle"
                     SearchBar:
                         hint_text: "Search by product name or code"
+                        suggestion_widget: Factory.FlatButton
+
         BoxLayout:
             spacing: dp(12)
             orientation: "vertical"
@@ -86,6 +91,7 @@
         size_hint_x: .3
         bcolor: app.color_alternate
         spacing: dp(12)
+        padding: [0, 0, 0, dp(16)]
         BoxLayout:
             size_hint_y: None
             height: dp(64)
@@ -119,9 +125,104 @@
                             background_down: ""
                             background_color: [0, 0, 0, 0]
         Divider:
+        BoxLayout:
+            orientation: "vertical"
+            spacing: dp(8)
+            BoxLayout:
+                size_hint_y: None
+                height: dp(20)
+                Text:
+                    text: "Current Cart"
+                    color: app.color_primary
+                    font_size: app.fonts.size.h3
+                    halign: "center"
+            BoxLayout:
+                orientation: "vertical"
+                spacing: dp(8)
+                padding: dp(12)
+                BoxLayout:
+                    id: header_box
+                    size_hint_y: None
+                    spacing: dp(4)
+                    height: dp(24)
+                    Text:
+                        text: "Product Name"
+                        color: app.color_primary_text
+                        font_size: app.fonts.size.h3
+                        halign: "left"
+                        size_hint_x: .5
+                    Text:
+                        text: "Qty"
+                        color: app.color_primary_text
+                        font_size: app.fonts.size.h3
+                        halign: "center"
+                        size_hint_x: .25
+                    Text:
+                        text: "Price"
+                        color: app.color_primary_text
+                        font_size: app.fonts.size.h3
+                        halign: "right"
+                        size_hint_x: .25
+                Divider:
+                BoxLayout:
+                    ScrollView:
+                        do_scroll: [False, True]
+                        size_hint_y: None
+                        height: self.parent.height
+                        GridLayout:
+                            id: gl_receipt
+                            size_hint_y: None
+                            height: self.minimum_height
+                            cols: 1
+                            spacing: dp(12)
+                            ReceiptItem:
+                                name: "mr Muscle B/Cleaner"
+                                qty: 2
+                                price: 8.00
+                            ReceiptItem:
+                                name: "mr Muscle B/Cleaner"
+                                qty: 2
+                                price: 8.00
+                            ReceiptItem:
+                                name: "mr Muscle B/Cleaner"
+                                qty: 2
+                                price: 8.00
+                            ReceiptItem:
+                                name: "mr Muscle B/Cleaner"
+                                qty: 2
+                                price: 8.00
+
+        Divider:
             id: br
         BoxLayout:
-            
+            size_hint_y: None
+            height: dp(54)*2
+            orientation: "vertical"
+            spacing: dp(8)
+            padding: [dp(12), 0]
+            BoxLayout:
+                spacing: sp(12)
+                Text:
+                    text: 'TOTAL'
+                    font_name: app.fonts.heading
+                    font_size: app.fonts.size.h2
+                    color: app.color_primary_text
+                    halign: "left"
+                Text:
+                    text: '$ %s'%round(root.current_total, 2)
+                    font_name: app.fonts.heading
+                    font_size: app.fonts.size.h2
+                    color: app.color_primary_text
+                    halign: "right"
+            RoundedButton:
+                text: "Print Receipt"
+                font_name: app.fonts.heading
+                font_size: app.fonts.size.h2
+                color: rgba("#ffffff")
+                radius: [self.height*.1]
+                bcolor: app.color_primary
+
+
 
 <Divider@Widget>:
     size_hint_y: None
@@ -132,6 +233,32 @@
         Rectangle:
             pos: self.pos
             size: self.size
+
+<ReceiptItem>:
+    size_hint_y: None
+    spacing: dp(4)
+    height: dp(32)
+    Text:
+        text: root.name
+        font_name: app.fonts.body
+        color: app.color_primary_text
+        font_size: app.fonts.size.h4
+        halign: "left"
+        size_hint_x: .5
+    Text:
+        text: "x%s"%str(root.qty)
+        font_name: app.fonts.body
+        color: app.color_primary_text
+        font_size: app.fonts.size.h4
+        halign: "center"
+        size_hint_x: .25
+    Text:
+        text: str(round(root.price, 2))
+        font_name: app.fonts.body
+        color: app.color_primary_text
+        font_size: app.fonts.size.h4
+        halign: "right"
+        size_hint_x: .25
 
 <ProductTile>:
     size_hint_y: None

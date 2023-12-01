@@ -2,8 +2,10 @@ from kivy.lang import Builder
 from kivy.uix.textinput import TextInput
 from kivy.graphics import Color, RoundedRectangle, Line
 from kivy.uix.dropdown import DropDown
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.button import Button
-from kivy.properties import ColorProperty, ListProperty
+from kivy.properties import ColorProperty, ListProperty, ObjectProperty, StringProperty, NumericProperty
 
 from kivy.core.window import Window
 from kivy.metrics import dp, sp
@@ -11,7 +13,38 @@ from kivy.metrics import dp, sp
 Builder.load_string("""
 <FlatField>:
     padding: [dp(6), (self.height - self.line_height)/2]
+
+<SuggestionWidget>:
+    size_hint_y: None
+    height: dp(42)
+    spacing: dp(8)
+    padding: [dp(12), 0]
+    canvas.before:
+        Color:
+            rgba: app.color_secondary_bg
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    Text:
+        text: root.pcode
+        color: app.color_primary_text
+        font_size: app.fonts.h4
+        font_name: app.fonts.body
+        size_hint_x: .3
+    Text:
+        text: root.name
+        color: app.color_primary_text
+        font_size: app.fonts.h4
+        font_name: app.fonts.body
+        size_hint_x: .5
+    Text:
+        text: "$%s"%round(root.price, 2)
+        color: app.color_primary_text
+        font_size: app.fonts.h4
+        font_name: app.fonts.body
+        size_hint_x: .2
 """)
+
 class FlatField(TextInput):
     def __init__(self, **kw):
         super().__init__(**kw)
@@ -96,6 +129,8 @@ class OutlineTextField(FlatField):
         
 class SearchBar(FlatField):
     choices = ListProperty(['Product 01', 'Product 02', 'Product 03'])
+    suggestion_widget = ObjectProperty(allownone=True)
+    
     def __init__(self, **kw):
         super().__init__(**kw)
         self.multiline = False
@@ -137,8 +172,14 @@ class SearchBar(FlatField):
             x: int = 0
             
             for c in self.choices:
-                b = Button()
-                b.text = c
+                b = SuggestionWidget()
+                
+                #if self.suggestion_widget:
+                #    b = self.suggestion_widget()
+                    
+                b.name = c
+                b.pcode = "231434123"
+                b.price = 23.56
                 b.size_hint_y = None
                 b.height = dp(54)
                 
@@ -151,3 +192,8 @@ class SearchBar(FlatField):
             
         except:
             pass
+        
+class SuggestionWidget(ButtonBehavior, BoxLayout):
+    pcode = StringProperty("")
+    name = StringProperty("")
+    price = NumericProperty(0)
