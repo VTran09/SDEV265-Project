@@ -208,6 +208,8 @@
                 color: rgba("#ffffff")
                 radius: [self.height*.1]
                 bcolor: app.color_primary
+                radius: [self.height*.1]
+                on_release: root.checkout
 
 
 
@@ -299,3 +301,49 @@
         color: app.color_primary_text
         valign: "middle"
         size_hint_x: .2
+
+<PosCheckout>:
+    background: ""
+    background_color: [0,0,0,.1]
+    BackBox:
+        orientation: "vertical"
+        spacing: dp(12)
+        padding: dp(14)
+        bcolor: app.color_primary_bg
+        radius: [self.height*.08]
+        size_hint: [None,.7]
+        width: self.height
+        BoxLayout:
+            size_hint_y: .6
+            orientation: "vertical"
+            Text:
+                text: "Checkout"
+                font_name: app.fonts.styled
+                font_size: app.fonts. size.extra
+                color: app.color_primary_text
+                halign: "center"
+            Text:
+                text: "Are you sure you want to Complete this purchase"
+                halign: "center"
+                font_size: app.fonts.size.h2
+                color: app.color_primary_text
+        AnchorLayout:
+            BoxLayout:
+                size_hint_y: .4
+                spacing: dp(12)
+                size_hint_y: None
+                height: dp(64)
+                FlatButton:
+                    text: "Cancel"
+                    font_size: app.fonts.size.h2
+                    color: app.color_tertiary
+                    on_release: root.dismiss()
+                RoundedButton:
+                    text: "Yes, Complete"
+                    font_size: app.fonts.size.h2
+                    bcolor: app.color_primary
+                    color: rgba("#ffffff")
+                    radius: [self.height*.1]
+                    on_release: root.complete()
+
+

@@ -209,6 +209,12 @@ class SearchBar(FlatField):
     def get_suggestions(self, suggestion):
         prods = self.products
         return prods
+    
+    def close_dropdowns(self):
+        if self.dropdown:
+            self.dropdown.dismiss()
+            self.dropdown = None
+
 class SuggestionWidget(ButtonBehavior, BoxLayout):
     pcode = StringProperty("")
     name = StringProperty("")

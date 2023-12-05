@@ -1,6 +1,7 @@
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.modalview import ModalView
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.metrics import dp, sp
 from kivy.utils import rgba, QueryDict
@@ -63,7 +64,7 @@ class Pos(BoxLayout):
 
         _total = 0
         for c in prods:
-            _total += round(float(c.price) ,2)
+            _total += round(float(c.price)*int(c.qty) ,2)
         
         self.current_total = _total
    
@@ -125,10 +126,23 @@ class Pos(BoxLayout):
                 break
         
         data['qty'] = _qty
-        data['price'] = (data["price"] * _qty)
+        data['price'] = (data["price"])
         self.current_cart.pop(i)
         self.current_cart.insert(i, data)
        # tile.qty = _qty
+
+    def clear_cart(self):
+        self.current_cart = []
+        
+
+    def checkout_callback(self, posview):
+        self.clear_cart()
+        self.ids.ti_search.text = ""
+        self.ids.ti_search.close_dropdowns()
+
+    def checkout(self):
+        pc = PosCheckout()
+        pc.open()
     
 
 class ProductTile(BoxLayout):
@@ -157,3 +171,18 @@ class ReceiptItem(BoxLayout):
         
     def render(self, _):
         pass
+
+class PosCheckout(ModalView):
+    callback = ObjectProperty(allownone=True)
+    def __init__(self, **kw) -> None:
+        super().__init__(**kw)
+        Clock.schedule_once(self.render, .1)
+        
+    def render(self, _):
+        pass
+
+    def complete(self):
+        self.dismiss()
+
+        if self.callback:
+            self.callback(self)        
