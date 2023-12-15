@@ -2,6 +2,10 @@
 #: import Home views.home.Home
 #: import Auth views.auth.Auth
 #: import Pos views.pos.Pos
+#: import Admin views.admin.Admin
+#: import Users views.users.Users
+#: import Stocks views.stocks.Stocks
+#: import Insights views.insights.Insights
 
 #: import BackBox widgets.box.BackBox
 #: import Text widgets.labels.Text
@@ -26,11 +30,16 @@
         id: scrn_mngr
         transition: FadeTransition()
         Screen:
-            name: 'scrn_home'
-            Home:
-                id: home
+            name: 'scrn_admin'
+            Admin:
+                id: admin
         Screen:
             name: 'scrn_auth'
             Auth:
                 id: auth
+        Screen:
+            name: 'scrn_home'
+            Home:
+                id: home
+        
         

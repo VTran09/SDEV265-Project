@@ -1,3 +1,4 @@
+from random import randint
 from kivy.lang import Builder
 from kivy.uix.textinput import TextInput
 from kivy.graphics import Color, RoundedRectangle, Line
@@ -128,13 +129,16 @@ class OutlineTextField(FlatField):
         self.border_draw.rounded_rectangle=[self.pos[0], self.pos[1], self.size[0], self.size[1], self.radius[0]]
         
 class SearchBar(FlatField):
-    choices = ListProperty(['Product 01', 'Product 02', 'Product 03'])
+    products = ListProperty([])
+    choices = ListProperty([])
     suggestion_widget = ObjectProperty(allownone=True)
+    callback = ObjectProperty(allownone=True)
     
     def __init__(self, **kw):
         super().__init__(**kw)
         self.multiline = False
         self.dropdown = None
+        
         
     def on_text(self, inst, text):
         try:
@@ -155,43 +159,69 @@ class SearchBar(FlatField):
             self.dropdown.dismiss()
             self.dropdown = None
             
-        else:
-            super().keyboard_on_key_down(window, kc, text, modifiers)
+        super().keyboard_on_key_down(window, kc, text, modifiers)
         
     def open_dropdown(self, *args):
         if self.dropdown:
             self.dropdown.open(self)
     
-    def show_suggestions(self, suggestion: str):
+    def show_suggestions(self, suggestion:str):
+        # Get the suggestions
+        suggestions = self.get_suggestions(suggestion)
+        print("show_suggestions called with suggestion:", suggestion)
+        print("Choices in show_suggestions:", suggestions)  # Add this line
+
+        self.choices.clear()
+        self.choices = suggestions
+    
+    def on_choice(self, inst, choices):
+        print("on_choice called with choice:", choices)
+        print("Choices in on_choices:", choices) # Add this line
+        
         try:
             self.dropdown = DropDown()
             self.dropdown.autowidth = False
             self.dropdown.size_hint_x = None
             self.dropdown.width = Window.width * .4
             
-            x: int = 0
+            x = 0
             
             for c in self.choices:
                 b = SuggestionWidget()
-                
                 #if self.suggestion_widget:
-                #    b = self.suggestion_widget()
-                    
-                b.name = c
-                b.pcode = "231434123"
-                b.price = 23.56
+                #    b = self.suggestion_widget()    
+                b.name = c['name']
+                b.pcode = c['pcode']
+                b.price = c['price']
                 b.size_hint_y = None
                 b.height = dp(54)
-                
+                b.bind(on_request=self.suggest)
                 self.dropdown.add_widget(b)
-                
                 x += 1
             
             if x > 0:
                 self.dropdown.open(self)
             
-        except:
-            pass
+        except Exception as e:
+            print(e)
+        
+    def suggest(self, inst):
+        print("Suggestion selected:", inst.name)
+        if self.callback:
+            self.callback(inst)
+        
+        if self.dropdown:
+            self.dropdown.dismiss()
+            self.dropdown = None
+    
+    def get_suggestions(self, suggestion):
+        prods = self.products
+        return prods
+    
+    def close_dropdowns(self):
+        if self.dropdown:
+            self.dropdown.dismiss()
+            self.dropdown = None
         
 class SuggestionWidget(ButtonBehavior, BoxLayout):
     pcode = StringProperty("")
