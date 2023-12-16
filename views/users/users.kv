@@ -30,7 +30,7 @@
                     bcolor: app.color_primary
                     radius: [self.height*.27]
                     size_hint_x: .8
-
+                    on_release: root.add_new
 
     
     BoxLayout:
@@ -73,6 +73,9 @@
                 color: app.color_primary_text
                 font_size: app.fonts.size.h3
                 size_hint_x: .15
+            BoxLayout:
+                size_hint_x: None
+                width: self.height
         BoxLayout:
             ScrollView:
                 do_scroll: [False, True]
@@ -132,3 +135,185 @@
         font_size: app.fonts.size.h3
         font_name: app.fonts.body
         size_hint_x: .15
+    FlatButton:
+        text: icon("icon-trash")
+        size_hint_x: None
+        width: self.height
+        color: app.color_tertiary
+        on_release: root.delete_user()
+
+<ModUser>
+    background: ""
+    background_color: [0,0,0,.1]
+    AnchorLayout:
+        anchor_x: "right"
+        BackBox:
+            orientation: 'vertical'
+            spacing: dp(12)
+            bcolor: app.color_primary_bg
+            size_hint_x: .3
+            AnchorLayout:
+                anchor_x: "left"
+                spacing: dp(12)
+                bcolor: app.color_primary_bg
+                size_hint_x:.3
+                FlatButton:
+                    text: icont("icon-x")
+                    color:app.color_primary_text
+                    font_size: app.fonts.size.h1
+                    size_hint_x: None
+                    width: self.height
+                    on_release: 
+                        root.dismiss()
+                        
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: dp(12)
+                size_hint_y: .2
+                Text:
+                    id: title
+                    text: "Add User"
+                    font_name: app.fonts.styled
+                    font_size: app.fonts.size.extra
+                    color: app.color_primary_text
+                    halign: "center"
+                    valign: "bottom"
+                AnchorLayout:
+                    anchor_y: "top"
+                    Label:  
+                        id: subtitle
+                        text: "Enter your details below to sign up"
+                        text_size: [self.parent.width, None]
+                        font_name: app.fonts.body
+                        font_size: app.fonts.size.h3
+                        size: self.texture_size
+                        color: app.color_secondary_text
+                        halign: "center"
+                        valign: "top"
+                        size_hint_y: None
+            AnchorLayout:
+                size_hint_y: .8
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: dp(24)
+                    padding:[dp(12), dp(12), dp(12),dp(24)]
+                    BackBox:
+                        size_hint_y: None
+                        height: dp(64)
+                        bcolor: app.color_secondary_bg
+                        radius: [self.height*.1]
+                        padding: [dp(12), dp(2)]
+                        FlatField:
+                            id: fname
+                            hint_text: "first name"
+                            hint_text_color: app.color_primary_text
+                            font_size: app.fonts.size.h2
+                            multiline: False
+                    BackBox:
+                        size_hint_y: None
+                        height: dp(64)
+                        bcolor: app.color_secondary_bg
+                        radius: [self.height*.1]
+                        padding: [dp(12), dp(2)]
+                        FlatField:
+                            id: lname
+                            hint_text: "last name"
+                            hint_text_color: app.color_primary_text
+                            font_size: app.fonts.size.h2
+                            multiline: False
+                    BackBox:
+                        size_hint_y: None
+                        height: dp(64)
+                        bcolor: app.color_secondary_bg
+                        radius: [self.height*.1]
+                        padding: [dp(12), dp(2)]
+                        FlatField:
+                            id: uname
+                            hint_text: "username"
+                            hint_text_color: app.color_primary_text
+                            font_size: app.fonts.size.h2
+                            multiline: False
+                    BackBox:
+                        size_hint_y: None
+                        height: dp(64)
+                        bcolor: app.color_secondary_bg
+                        radius: [self.height*.1]
+                        padding: [dp(12), dp(2)]
+                        FlatField:
+                            id: pwd
+                            hint_text: "password"
+                            hint_text_color: app.color_primary_text
+                            font_size: app.fonts.size.h2
+                            password: True
+                            multiline: False
+                    BackBox:
+                        size_hint_y: None
+                        height: dp(64)
+                        bcolor: app.color_secondary_bg
+                        radius: [self.height*.1]
+                        padding: [dp(12), dp(2)]
+                        FlatField:
+                            id: cpwd
+                            hint_text: "confirm password"
+                            hint_text_color: app.color_primary_text
+                            font_size: app.fonts.size.h2
+                            password: True
+                            multiline: False
+                    Widget:
+                    BackBox:
+                        size_hint_y: None
+                        height: dp(64)
+                        RoundedButton:
+                            id: btn_confirm
+                            text: "Add User"
+                            font_name: app.fonts.heading
+                            font_size: app.fonts.size.h1
+                            bcolor: app.color_primary
+                            radius: [self.height*.1]
+                            on_release:
+                                root.callback(root)
+                                root.dismiss()
+
+<DeleteConfirm>:
+    background: ""
+    background_color: [0, 0, 0, .1]
+    BackBox:
+        orientation: 'vertical'
+        spacing: dp(12)
+        padding: dp(14)
+        bcolor: app.color_primary_bg
+        radius: [self.height*.08]
+        size_hint: [None, .7]
+        width: self.height
+        BoxLayout:
+            size_hint_y: .6
+            orientation: 'vertical'
+            Text:
+                text: "Delete User"
+                halign: "center"
+                font_name: app.fonts.styled
+                font_size: app.fonts.size.extra
+                color: app.color_primary_text
+            Text:
+                text: "Are you sure you want to delete this user?"
+                halign: "center"
+                font_size: app.fonts.size.h2
+                color: app.color_primary_text
+        AnchorLayout:
+            BoxLayout:
+                size_hint_y: .4
+                spacing: dp(12)
+                size_hint_y: None
+                height: dp(64)
+                FlatButton:
+                    text: "Cancel"
+                    font_size: app.fonts.size.h2
+                    color: app.color_primary
+                    on_release: root.dismiss()
+                RoundedButton:
+                    text: "Yes, delete"
+                    font_size: app.fonts.size.h2
+                    bcolor: app.color_tertiary
+                    color: rgba('#ffffff')
+                    radius: [self.height*.1]
+                    on_release: root.complete()                     

@@ -187,10 +187,7 @@ class PosCheckout(ModalView):
         Clock.schedule_once(self.render, .1)
         
     def render(self, _):
-        pass
-    
-    def render(self, _):
-        pass
+        pass 
         
     def complete(self):
         self.dismiss()
