@@ -1,7 +1,134 @@
 <Users>:
     orientation: 'vertical'
+    padding: dp(12)
+    BoxLayout: 
+        size_hint_y: None
+        height: dp(54)
+    BoxLayout:
+    BackBox:
+        radius: [self.height*.37]
+        padding: [dp(8), 0]
+        size_hint_x: .1
+        bcolor: app.color_primary
+        RelativeLayout:
+            AnchorLayout:
+                anchor_x: "right"
+                Text:
+                    text: icon("icon-plus")
+                    color: [1,1,1,1]
+                    halign: "right"
+                    font_size: app.fonts.size.h3
+                    size_hint_x: None
+                    width: self.height
+            AnchorLayout: 
+                anchor_x: "left"
+             RoundedButton:
+                    text: "Add New"
+                    halign: "Left"
+                    color: [1,1,1,1]
+                    font_size: self.width * .22
+                    bcolor: app.color_primary
+                    radius: [self.height*.27]
+                    size_hint_x: .8
+
+
+    
+    BoxLayout:
+        id: bx_table
+        orientation: "vertical"
+        padding: [0, dp(16), 0, 0]
+        BackBox:
+            size_hint_y: None
+            height: dp(42)
+            bcolor: app.color_secondary_bg
+            spacing: dp(12)
+            padding: [dp(12), 0]
+            Text:
+                text: "First Name"
+                color: app.color_primary_text
+                font_size: app.fonts.size.h3
+                size_hint_x: .15
+            Text:
+                text: "Last Name"
+                color: app.color_primary_text
+                font_size: app.fonts.size.h3
+                size_hint_x: .15
+            Text:
+                text: "Username"
+                color: app.color_primary_text
+                font_size: app.fonts.size.h3
+                size_hint_x: .15
+            Text:
+                text: "Password([size=14]Encrypted[/size])"
+                color: app.color_primary_text
+                font_size: app.fonts.size.h3
+                size_hint_x: .25
+            Text:
+                text: "Date Created"
+                color: app.color_primary_text
+                font_size: app.fonts.size.h3
+                size_hint_x: .15
+            Text:
+                text: "Last Sign in Time"
+                color: app.color_primary_text
+                font_size: app.fonts.size.h3
+                size_hint_x: .15
+        BoxLayout:
+            ScrollView:
+                do_scroll: [False, True]
+                size_hint_y: None
+                height: self.parent.height
+                GridLayout:
+                    id: gl_users
+                    cols: 1
+                    spacing: dp(8)
+                    size_hint_y: None
+                    height: self.minumum_height
+
+<UserTile>
+    size_hint_y: None
+    height: dp(42)
+    spacing: dp(12)
+    padding: [dp(12), 0]
+    canvas.before:
+        Color:
+            rgba: app.color_secondary_bg
+        Rectangle: 
+            pos: self.pos
+            size: [self.size[0], dp(1)] 
+           
     Text:
-        text: "Users"
-        color: app.color_primary
-        font_size: dp(48)
-        halign: 'center'
+        text: root.first_name
+        color: app.color_primary_text
+        font_size: app.fonts.size.h3
+        size_hint_x: .15
+    Text:
+        text: root.last_name
+        color: app.color_primary_text
+        font_size: app.fonts.size.h3
+        font_name: app.fonts.body
+        size_hint_x: .15
+    Text:
+        text: root.username
+        color: app.color_primary_text
+        font_size: app.fonts.size.h3
+        font_name: app.fonts.body
+        size_hint_x: .15
+    Text:
+        text: root.password
+        color: app.color_primary_text
+        font_size: app.fonts.size.h3
+        font_name: app.fonts.body
+        size_hint_x: .25
+    Text:
+        text: root.created
+        color: app.color_primary_text
+        font_size: app.fonts.size.h3
+        font_name: app.fonts.body
+        size_hint_x: .15
+    Text:
+        text: root.last_login
+        color: app.color_primary_text
+        font_size: app.fonts.size.h3
+        font_name: app.fonts.body
+        size_hint_x: .15
