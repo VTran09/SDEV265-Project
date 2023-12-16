@@ -1,0 +1,71 @@
+
+
+<Admin>:
+    spacing: dp(12)
+    padding: [dp(32), dp(16)]
+    BackBox:
+        radius: [self.width*.1]
+        orientation: "vertical"
+        spacing: dp(12)
+        size_hint_x: .1
+        bcolor: app.color_primary
+        BoxLayout:
+            size_hint_y: None
+            height: self.width
+            padding: dp(12)
+
+            Image:
+                source: "assets/imgs/logo-dark.png"
+        GridLayout:
+            cols: 1
+            spacing: dp(12)
+            NavToggle:
+                text: "Point of Sale (POS)"
+                icon: icon("icon-airplay")
+            NavToggle:
+                text: "Manage Users"
+                icon: icon("icon-users")
+            NavToggle:
+                text: "Manage Stock"
+                icon: icon("icon-truck")
+            NavToggle:
+                text: "Stock Insights"
+                icon: icon("icon-bar-chart")
+            
+    BoxLayout:
+        size_hint_x: .9
+        orientation: "vertical"
+        spacing: dp(12)
+
+    <NavToggle@ToggleButtonBehavior+BoxLayout>:
+        size_hint_y: None
+        height: dp(48)
+        text: ""
+        icon: ""
+        group: "nav-items"
+        spacing: dp(12)
+        AnchorLayout:
+            anchor_y: "center"
+            size_hint_x: None
+            width: dp(4)
+            Widget:
+                size_hint_y: .6
+                canvas.before:
+                    Color:
+                        rgba: [1,1,1,1] if root.state == "down" else [0,0,0,0]
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [0, dp(6), dp(6), 0]
+        Text:
+            text: root.icon
+            color: [1,1,1,1]
+            halign: "center:
+            font_size: app.fonts.size.h2
+            size_hint_x: None
+            width: dp(26)
+        Text:
+            text: root.text
+            color: [1,1,1,1]
+            font_size: app.fonts.size.h3
+            
