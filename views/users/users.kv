@@ -4,34 +4,33 @@
     BoxLayout: 
         size_hint_y: None
         height: dp(54)
-    BoxLayout:
-    BackBox:
-        radius: [self.height*.37]
-        padding: [dp(8), 0]
-        size_hint_x: .1
-        bcolor: app.color_primary
-        RelativeLayout:
-            AnchorLayout:
-                anchor_x: "right"
-                Text:
-                    text: icon("icon-plus")
-                    color: [1,1,1,1]
-                    halign: "right"
-                    font_size: app.fonts.size.h3
-                    size_hint_x: None
-                    width: self.height
-            AnchorLayout: 
-                anchor_x: "left"
-             RoundedButton:
-                    text: "Add New"
-                    halign: "Left"
-                    color: [1,1,1,1]
-                    font_size: self.width * .22
-                    bcolor: app.color_primary
-                    radius: [self.height*.27]
-                    size_hint_x: .8
-                    on_release: root.add_new
-
+        BoxLayout:
+        BackBox:
+            radius: [self.height*.45]
+            padding: [dp(8), 0]
+            size_hint_x: .1
+            bcolor: app.color_primary
+            RelativeLayout:
+                AnchorLayout:
+                    anchor_x: "right"
+                    Text:
+                        text: icon("icon-plus")
+                        color: [1, 1, 1, 1]
+                        halign: "right"
+                        font_size: app.fonts.size.h3
+                        size_hint_x: None
+                        width: self.height
+                AnchorLayout: 
+                    anchor_x: "left"
+                    RoundedButton:
+                        text: "Add New"
+                        halign: "left"
+                        color: [1, 1, 1, 1]
+                        font_size: self.width * .22
+                        bcolor: app.color_primary
+                        radius: [self.height*.27]
+                        size_hint_x: .8
+                        on_release: root.add_new()
     
     BoxLayout:
         id: bx_table
@@ -86,9 +85,9 @@
                     cols: 1
                     spacing: dp(8)
                     size_hint_y: None
-                    height: self.minumum_height
+                    height: self.minimum_height
 
-<UserTile>
+<UserTile>:
     size_hint_y: None
     height: dp(42)
     spacing: dp(12)
@@ -99,7 +98,6 @@
         Rectangle: 
             pos: self.pos
             size: [self.size[0], dp(1)] 
-           
     Text:
         text: root.first_name
         color: app.color_primary_text
@@ -142,9 +140,9 @@
         color: app.color_tertiary
         on_release: root.delete_user()
 
-<ModUser>
+<ModUser>:
     background: ""
-    background_color: [0,0,0,.1]
+    background_color: [0, 0, 0, .1]
     AnchorLayout:
         anchor_x: "right"
         BackBox:
@@ -154,18 +152,15 @@
             size_hint_x: .3
             AnchorLayout:
                 anchor_x: "left"
-                spacing: dp(12)
-                bcolor: app.color_primary_bg
-                size_hint_x:.3
+                height: dp(42)
+                size_hint_y: None
                 FlatButton:
-                    text: icont("icon-x")
-                    color:app.color_primary_text
+                    text: icon("icon-x")
+                    color: app.color_primary_text
                     font_size: app.fonts.size.h1
                     size_hint_x: None
                     width: self.height
-                    on_release: 
-                        root.dismiss()
-                        
+                    on_release: root.dismiss()         
             BoxLayout:
                 orientation: 'vertical'
                 spacing: dp(12)
@@ -196,7 +191,7 @@
                 BoxLayout:
                     orientation: 'vertical'
                     spacing: dp(24)
-                    padding:[dp(12), dp(12), dp(12),dp(24)]
+                    padding: [dp(12), dp(12), dp(12), dp(24)]
                     BackBox:
                         size_hint_y: None
                         height: dp(64)
@@ -273,47 +268,4 @@
                             on_release:
                                 root.callback(root)
                                 root.dismiss()
-
-<DeleteConfirm>:
-    background: ""
-    background_color: [0, 0, 0, .1]
-    BackBox:
-        orientation: 'vertical'
-        spacing: dp(12)
-        padding: dp(14)
-        bcolor: app.color_primary_bg
-        radius: [self.height*.08]
-        size_hint: [None, .7]
-        width: self.height
-        BoxLayout:
-            size_hint_y: .6
-            orientation: 'vertical'
-            Text:
-                text: "Delete User"
-                halign: "center"
-                font_name: app.fonts.styled
-                font_size: app.fonts.size.extra
-                color: app.color_primary_text
-            Text:
-                text: "Are you sure you want to delete this user?"
-                halign: "center"
-                font_size: app.fonts.size.h2
-                color: app.color_primary_text
-        AnchorLayout:
-            BoxLayout:
-                size_hint_y: .4
-                spacing: dp(12)
-                size_hint_y: None
-                height: dp(64)
-                FlatButton:
-                    text: "Cancel"
-                    font_size: app.fonts.size.h2
-                    color: app.color_primary
-                    on_release: root.dismiss()
-                RoundedButton:
-                    text: "Yes, delete"
-                    font_size: app.fonts.size.h2
-                    bcolor: app.color_tertiary
-                    color: rgba('#ffffff')
-                    radius: [self.height*.1]
-                    on_release: root.complete()                     
+                     

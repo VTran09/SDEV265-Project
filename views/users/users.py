@@ -11,18 +11,19 @@ from kivy.metrics import dp, sp
 from kivy.clock import Clock, mainthread
 
 from kivy.properties import StringProperty, NumericProperty, ObjectProperty, ListProperty, ColorProperty
+from widgets.popups import ConfirmDialog
 
 
 Builder.load_file("views/users/users.kv")
-
 class Users(BoxLayout):
     def __init__(self, **kw) -> None:
         super().__init__(**kw)
         Clock.schedule_once(self.render, .1)
+        self.currentUser = None
         
     def render(self, _):
         t1 = Thread(target=self.get_users, daemon=True)
-        t1.start
+        t1.start()
     
     def add_new(self): 
         md=ModUser()
@@ -30,38 +31,35 @@ class Users(BoxLayout):
         md.open()    
 
     def get_users(self):
-        users =  [
-
-        {
-                "firstName": "Andrew"
-                "lastName": "Rehfeldt"
-                "username": "firstAndrew"
-                "password": "schoolproject"
-                "created": "12/12/2023 10:02:23 PM"
-                "signedIn": "12/15/2023 11:47:10 AM"
-        },
-        {
-                "firstName": "James"
-                "lastName": "Ramsey"
-                "username": "firstJames"
-                "password": "schoolproject"
-                "created": "12/12/2023 10:02:25 PM"
-                "signedIn": "12/15/2023 11:47:11 AM"
-        },
-        {
-                "firstName": "Van"
-                "lastName": "Tran"
-                "username": "firstVan
-                "password": "schoolproject"
-                "createdAt": "12/12/2023 10:02:29 PM"
-                "signedIn": "12/15/2023 11:47:19 AM"
-        }
-        
+        users = [
+            {
+                "firstName": "Andrew",
+                "lastName": "Rehfeldt",
+                "username": "firstAndrew",
+                "password": "schoolproject",
+                "createdAt": "2023/12/12 10:02:23 PM",
+                "signedIn": "2023/12/15 11:47:10 AM",
+            },
+            {
+                "firstName": "James",
+                "lastName": "Ramsey",
+                "username": "firstJames",
+                "password": "schoolproject",
+                "createdAt": "2023/12/12 10:02:25 PM",
+                "signedIn": "2023/12/15 11:47:11 AM",
+            },
+            {
+                "firstName": "Van",
+                "lastName": "Tran",
+                "username": "firstVan",
+                "password": "schoolproject",
+                "createdAt": "2023/12/12 10:02:29 PM",
+                "signedIn": "2023/12/15 11:47:19 AM",
+            },
         ]
-
         self.set_users(users)
 
-def add_user(self, mv):
+    def add_user(self, mv):
         fname = mv.ids.fname
         lname = mv.ids.lname
         uname = mv.ids.uname
@@ -72,16 +70,16 @@ def add_user(self, mv):
             # inform user first name is invalid
             return
         _pwd = pwd.text.strip()
-        upass = hashlib.sha256(_pwd.encode).hexdigest()
+        upass = hashlib.sha256(_pwd.encode()).hexdigest()
         now = datetime.now()
         _now = datetime.strftime(now, '%Y/%m/%d %H:%M')
-        user={
+        user = {
                 "firstName": fname.text.strip(),
                 "lastName": lname.text.strip(),
                 "username": uname.text.strip(),
                 "password": upass,
-                "created": _now,
-                "signedIn": "12/15/2023 11:47:10 AM"
+                "createdAt": _now,
+                "signedIn": "",
             }
         self.set_users([user])
 
@@ -90,11 +88,11 @@ def add_user(self, mv):
         mv.first_name = user.first_name
         mv.last_name = user.last_name
         mv. username = user.username
-        mv.callback = self.
+        mv.callback = self.set_update
         
         mv.open()
-    
-    def set_update(self, mv)
+
+    def set_update(self, mv):
         print("Updating...")
 
     @mainthread
@@ -109,16 +107,28 @@ def add_user(self, mv):
             ut.username = u['username']
             ut.password = u['password']
             ut.created = u['createdAt']
-            ut.last_login = u['signIn']
+            ut.last_login = u['signedIn']
             ut.callback = self.delete_user
             ut.bind(on_release=self.update_user)
 
             grid.add_widget(ut)
 
-
     def delete_user(self, user):
-        dc = DeleteConfirm()
+        self.currentUser = user
+        dc = ConfirmDialog()
+        dc.title = "Delete User"
+        dc.subtitle = "Are you sure you want to delete this user?"
+        dc.textConfirm = "Yes, Delete"
+        dc.textCancel = "Cancel"
+        dc.confirmColor = App.get_running_app().color_tertiary
+        dc.cancelColor = App.get_running_app().color_primary
+        dc.confirmCallback = self.delete_from_view
         dc.open()
+        
+    def delete_from_view(self, ConfirmDialog):
+        
+        if  self.currentUser:
+            self.currentUser.parent.remove_widget(self.currentUser)
 
 class UserTile(ButtonBehavior, BoxLayout):
     first_name = StringProperty("")
@@ -127,7 +137,8 @@ class UserTile(ButtonBehavior, BoxLayout):
     password = StringProperty("")
     created = StringProperty("")
     last_login = StringProperty("")
-    callback = ObjectProperty(allownone=None)
+    callback = ObjectProperty(allownone=True)
+    
     def __init__(self, **kw) -> None:
         super().__init__(**kw)
         Clock.schedule_once(self.render, .1)
@@ -138,23 +149,7 @@ class UserTile(ButtonBehavior, BoxLayout):
     def delete_user(self):
         if self.callback:
             self.callback(self)
-
-class DeleteConfirm(ModalView):
-    callback = ObjectProperty(allownone=True)
-    
-    def __init__(self, **kw) -> None:
-        super().__init__(**kw)
-        Clock.schedule_once(self.render, .1)
-        
-    def render(self, _):
-        pass
-        
-    def complete(self):
-        self.dismiss()
-        
-        if self.callback:
-            self.callback(self)
- 
+            
 
 class ModUser(ModalView):
     first_name = StringProperty("")
@@ -171,14 +166,14 @@ class ModUser(ModalView):
     def render(self, _):
         pass
 
-    def on_first_name(self, inst, fname)
+    def on_first_name(self, inst, fname):
         self.ids.fname.text = fname
         self.ids.title.text = "Update User"
         self.ids.btn_confirm.text = "Update User"
         self.ids.subtitle.text = "Enter your details below to update user"
     
-    def on_last_name(self, inst, lname)
+    def on_last_name(self, inst, lname):
         self.ids.lname.text = lname
     
-    def on_username(self, inst, uname)
+    def on_username(self, inst, uname):
         self.ids.uname.text = uname

@@ -1,7 +1,280 @@
 <Stocks>:
     orientation: 'vertical'
+    padding: dp(12)
+    BoxLayout: 
+        size_hint_y: None
+        height: dp(54)
+        BoxLayout:
+        BackBox:
+            radius: [self.height*.45]
+            padding: [dp(8), 0]
+            size_hint_x: .1
+            bcolor: app.color_primary
+            RelativeLayout:
+                AnchorLayout:
+                    anchor_x: "right"
+                    Text:
+                        text: icon("icon-plus")
+                        color: [1, 1, 1, 1]
+                        halign: "right"
+                        font_size: app.fonts.size.h3
+                        size_hint_x: None
+                        width: self.height
+                AnchorLayout: 
+                    anchor_x: "left"
+                    RoundedButton:
+                        text: "Add New"
+                        halign: "left"
+                        color: [1, 1, 1, 1]
+                        font_size: self.width * .22
+                        bcolor: app.color_primary
+                        radius: [self.height*.27]
+                        size_hint_x: .8
+                        on_release: root.add_new()
+    
+    BoxLayout:
+        id: bx_table
+        orientation: "vertical"
+        padding: [0, dp(16), 0, 0]
+        BackBox:
+            size_hint_y: None
+            height: dp(42)
+            bcolor: app.color_secondary_bg
+            spacing: dp(12)
+            padding: [dp(12), 0]
+            Text:
+                text: "Product Code"
+                color: app.color_primary_text
+                font_size: app.fonts.size.h3
+                size_hint_x: .15
+            Text:
+                text: "Product Name"
+                color: app.color_primary_text
+                font_size: app.fonts.size.h3
+                size_hint_x: .15
+            Text:
+                text: "In Stock"
+                color: app.color_primary_text
+                font_size: app.fonts.size.h3
+                size_hint_x: .15
+            Text:
+                text: "Sold"
+                color: app.color_primary_text
+                font_size: app.fonts.size.h3
+                size_hint_x: .1
+            Text:
+                text: "Last Order Date"
+                color: app.color_primary_text
+                font_size: app.fonts.size.h3
+                size_hint_x: .15
+            Text:
+                text: "Price"
+                color: app.color_primary_text
+                font_size: app.fonts.size.h3
+                size_hint_x: .15
+            Text:
+                text: "Discount"
+                color: app.color_primary_text
+                font_size: app.fonts.size.h3
+                size_hint_x: .15
+            BoxLayout:
+                size_hint_x: None
+                width: self.height
+        BoxLayout:
+            ScrollView:
+                do_scroll: [False, True]
+                size_hint_y: None
+                height: self.parent.height
+                GridLayout:
+                    id: gl_products
+                    cols: 1
+                    spacing: dp(8)
+                    size_hint_y: None
+                    height: self.minimum_height
+
+<StockTile>:
+    size_hint_y: None
+    height: dp(42)
+    spacing: dp(12)
+    padding: [dp(12), 0]
+    canvas.before:
+        Color:
+            rgba: app.color_secondary_bg
+        Rectangle: 
+            pos: self.pos
+            size: [self.size[0], dp(1)] 
     Text:
-        text: "Stocks"
-        color: app.color_primary
-        font_size: dp(48)
-        halign: 'center'
+        text: root.product_code
+        color: app.color_primary_text
+        font_size: app.fonts.size.h3
+        size_hint_x: .15
+    Text:
+        text: root.product_name
+        color: app.color_primary_text
+        font_size: app.fonts.size.h3
+        font_name: app.fonts.body
+        size_hint_x: .15
+    Text:
+        text: root.in_stock
+        color: app.color_primary_text
+        font_size: app.fonts.size.h3
+        font_name: app.fonts.body
+        size_hint_x: .15
+    Text:
+        text: root.sold
+        color: app.color_primary_text
+        font_size: app.fonts.size.h3
+        font_name: app.fonts.body
+        size_hint_x: .1
+    Text:
+        text: root.order_date
+        color: app.color_primary_text
+        font_size: app.fonts.size.h3
+        font_name: app.fonts.body
+        size_hint_x: .15
+    Text:
+        text: root.price
+        color: app.color_primary_text
+        font_size: app.fonts.size.h3
+        font_name: app.fonts.body
+        size_hint_x: .15
+    Text:
+        text: root.discount
+        color: app.color_primary_text
+        font_size: app.fonts.size.h3
+        font_name: app.fonts.body
+        size_hint_x: .15
+    FlatButton:
+        text: icon("icon-trash")
+        size_hint_x: None
+        width: self.height
+        color: app.color_tertiary
+        on_release: root.delete_product()
+
+<ModProduct>:
+    background: ""
+    background_color: [0, 0, 0, .1]
+    AnchorLayout:
+        anchor_x: "right"
+        BackBox:
+            orientation: 'vertical'
+            spacing: dp(12)
+            bcolor: app.color_primary_bg
+            size_hint_x: .3
+            AnchorLayout:
+                anchor_x: "left"
+                height: dp(42)
+                size_hint_y: None
+                FlatButton:
+                    text: icon("icon-x")
+                    color: app.color_primary_text
+                    font_size: app.fonts.size.h1
+                    size_hint_x: None
+                    width: self.height
+                    on_release: root.dismiss()         
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: dp(12)
+                size_hint_y: .2
+                Text:
+                    id: title
+                    text: "Add Product"
+                    font_name: app.fonts.styled
+                    font_size: app.fonts.size.extra
+                    color: app.color_primary_text
+                    halign: "center"
+                    valign: "bottom"
+                AnchorLayout:
+                    anchor_y: "top"
+                    Label:  
+                        id: subtitle
+                        text: "Enter the product details below"
+                        text_size: [self.parent.width, None]
+                        font_name: app.fonts.body
+                        font_size: app.fonts.size.h3
+                        size: self.texture_size
+                        color: app.color_secondary_text
+                        halign: "center"
+                        valign: "top"
+                        size_hint_y: None
+            AnchorLayout:
+                size_hint_y: .8
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: dp(24)
+                    padding: [dp(12), dp(12), dp(12), dp(24)]
+                    BackBox:
+                        size_hint_y: None
+                        height: dp(64)
+                        bcolor: app.color_secondary_bg
+                        radius: [self.height*.1]
+                        padding: [dp(12), dp(2)]
+                        FlatField:
+                            id: pcode
+                            hint_text: "product code"
+                            hint_text_color: app.color_primary_text
+                            font_size: app.fonts.size.h2
+                            multiline: False
+                    BackBox:
+                        size_hint_y: None
+                        height: dp(64)
+                        bcolor: app.color_secondary_bg
+                        radius: [self.height*.1]
+                        padding: [dp(12), dp(2)]
+                        FlatField:
+                            id: pname
+                            hint_text: "product name"
+                            hint_text_color: app.color_primary_text
+                            font_size: app.fonts.size.h2
+                            multiline: False
+                    BackBox:
+                        size_hint_y: None
+                        height: dp(64)
+                        bcolor: app.color_secondary_bg
+                        radius: [self.height*.1]
+                        padding: [dp(12), dp(2)]
+                        FlatField:
+                            id: istock
+                            hint_text: "in stock"
+                            hint_text_color: app.color_primary_text
+                            font_size: app.fonts.size.h2
+                            multiline: False
+                    BackBox:
+                        size_hint_y: None
+                        height: dp(64)
+                        bcolor: app.color_secondary_bg
+                        radius: [self.height*.1]
+                        padding: [dp(12), dp(2)]
+                        FlatField:
+                            id: price
+                            hint_text: "price"
+                            hint_text_color: app.color_primary_text
+                            font_size: app.fonts.size.h2
+                            multiline: False
+                    BackBox:
+                        size_hint_y: None
+                        height: dp(64)
+                        bcolor: app.color_secondary_bg
+                        radius: [self.height*.1]
+                        padding: [dp(12), dp(2)]
+                        FlatField:
+                            id: order_date
+                            hint_text: "order date"
+                            hint_text_color: app.color_primary_text
+                            font_size: app.fonts.size.h2
+                            multiline: False
+                    Widget:
+                    BackBox:
+                        size_hint_y: None
+                        height: dp(64)
+                        RoundedButton:
+                            id: btn_confirm
+                            text: "Add Product"
+                            font_name: app.fonts.heading
+                            font_size: app.fonts.size.h1
+                            bcolor: app.color_primary
+                            radius: [self.height*.1]
+                            on_release:
+                                root.callback(root)
+                                root.dismiss()
+                     
